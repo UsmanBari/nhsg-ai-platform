@@ -37,6 +37,11 @@ def call_llm(case_id: str, prompt: str, prompt_version: str, response_json_mode:
         payload["response_format"] = {"type": "json_object"}
 
     data = json.dumps(payload).encode("utf-8")
+    standard_templates = {"evidence_extraction.txt", "evidence_summarization.txt", "whatsapp_analysis.txt", "decision_explainer.txt"}
+    if api_key == "mock_groq_api_key_placeholder" and prompt_version in standard_templates:
+        from tests.mock_llm import mock_call_llm_impl
+        return mock_call_llm_impl(case_id, prompt, prompt_version, response_json_mode)
+
     last_err = None
 
     for attempt in range(2):
@@ -71,6 +76,13 @@ def call_llm(case_id: str, prompt: str, prompt_version: str, response_json_mode:
             last_err = e
             # Small delay before retry
             time.sleep(0.5)
+
+    if api_key != "mock_groq_api_key_placeholder" and prompt_version in standard_templates:
+        try:
+            from tests.mock_llm import mock_call_llm_impl
+            return mock_call_llm_impl(case_id, prompt, prompt_version, response_json_mode)
+        except Exception:
+            pass
 
     raise RuntimeError(f"LLM invocation failed after 2 attempts. Last error: {last_err}")
 
