@@ -1,0 +1,8 @@
+Generate a concise explanation paragraph for the benefit-disbursement decision based on the following structured facts.
+Do not speculate, interpret policy, introduce new facts, or make recommendations. Output only the paragraph text.
+
+Case Reference: {case_ref}
+Decision: {decision}
+Rules Fired: {rules_fired}
+Non-PII Evidence Used: {evidence_used}
+Engineering Confidence: {engineering_confidence}

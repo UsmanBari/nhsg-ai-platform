@@ -1,0 +1,29 @@
+{
+  "current_balance_pkr": 54000,
+  "history": [
+    {
+      "case_id": "CASE-001",
+      "verifier_decision": "RESOLVED",
+      "pool_decision": "DISBURSE",
+      "pool_before": 66000,
+      "pool_after": 54000,
+      "timestamp": "2026-07-30T13:13:33.072712Z"
+    },
+    {
+      "case_id": "CASE-002",
+      "verifier_decision": "REJECT_INELIGIBLE_INCOME",
+      "pool_decision": "REJECT_INELIGIBLE_INCOME",
+      "pool_before": 54000,
+      "pool_after": 54000,
+      "timestamp": "2026-07-30T13:13:33.147302Z"
+    },
+    {
+      "case_id": "CASE-003",
+      "verifier_decision": "ESCALATE_REQUIRES_HUMAN",
+      "pool_decision": "ESCALATE_REQUIRES_HUMAN",
+      "pool_before": 54000,
+      "pool_after": 54000,
+      "timestamp": "2026-07-30T13:13:33.211832Z"
+    }
+  ]
+}

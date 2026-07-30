@@ -1,0 +1,13 @@
+Analyze the following deterministically extracted structured evidence.
+Do not speculate or infer missing information. If information is absent, say UNKNOWN.
+Output only structured JSON matching the expected schema.
+
+Extracted Evidence:
+{extracted_evidence}
+
+Expected JSON Schema:
+{
+  "evidence_summary": "concise summary of the evidence",
+  "contradictions_explanation": "explanation of contradictions or discrepancies, if any, else None",
+  "ignored_notes_explanation": "explanation of ignored informal WhatsApp notes, if any, else None"
+}

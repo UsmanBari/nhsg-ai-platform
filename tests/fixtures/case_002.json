@@ -1,0 +1,8 @@
+{
+  "case_id": "CASE-002",
+  "whatsapp_forward": "UC-08 — Yasmeen Akhtar case. Salary slip shows high income but she insists household low. Form + CNIC + slip attached. MNA office called asking to approve — political pressure.",
+  "declaration": "NATIONAL HOUSEHOLD SUPPORT GRANT — DECLARATION\nName ........ Yasmeen Akhtar\nCNIC ........ 35202-3333333-4\nDistrict .... Lahore, UC-08\nHousehold size ... 5 (self, 4 children)\nOther earners? ... NO — sole earner (widow)\nMonthly income .... Rs. 38,000 /=\nSignature ... [signed] Date ... 17/06/2026",
+  "cnic_scan": "Yasmeen Akhtar, CNIC 35202-3333333-4, DOB 20/07/1982, valid.",
+  "salary_slip": "From: finance@punjab-university.example\nSubject: Salary — Yasmeen Akhtar (Lab Tech)\nUNIVERSITY OF THE PUNJAB — JUNE 2026 PAY SLIP\nEmployee: Yasmeen Akhtar\nGross salary ............ PKR 62,000\nLess deductions ....... PKR 5,500\nNet pay ................. PKR 56,500",
+  "registry_lookup": "REGISTRY_LOOKUP cnic=35202-3333333-4\nidentity_verified : TRUE\nregistry_status : ACTIVE_CITIZEN\nflags : NONE\nactive_grants_other_districts : NONE\ncoverage_note : ALL_DISTRICTS_CHECKED"
+}

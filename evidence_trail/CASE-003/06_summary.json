@@ -1,0 +1,20 @@
+{
+  "evidence_complete": true,
+  "income_side": "unknown",
+  "gross_income_pkr": 52000,
+  "net_income_pkr": 48500,
+  "explicit_exception_request": true,
+  "ignored_informal_notes": [],
+  "registry": {
+    "identity_verified": true,
+    "registry_status": "ACTIVE_CITIZEN",
+    "flags": [],
+    "active_grants_other_districts": [],
+    "coverage_note": "ALL_DISTRICTS_CHECKED"
+  },
+  "llm_reasoning": {
+    "evidence_summary": "Muhammad Ilyas UC-07 application contains signed declaration, valid CNIC, and Attock Cement pay slip showing income close to the threshold.",
+    "contradictions_explanation": "Verified gross salary of 52k is inside the margin boundary, leading to an unknown income side determination.",
+    "ignored_notes_explanation": "None. The applicant's request to override is not a third-party pressure but an explicit authorization request."
+  }
+}

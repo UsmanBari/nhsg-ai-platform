@@ -1,0 +1,7 @@
+{
+  "household_income_threshold_pkr": 50000,
+  "numeric_margin_pkr": 3000,
+  "grant_amount_pkr": 12000,
+  "starting_pool_pkr": 66000,
+  "minimum_pool_to_disburse_pkr": 12000
+}

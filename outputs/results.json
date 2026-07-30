@@ -1,0 +1,40 @@
+{
+  "cases": [
+    {
+      "case_id": "CASE-001",
+      "verifier_decision": "DISBURSE",
+      "disbursing_action": "COMMITTED",
+      "pool_before": 66000,
+      "pool_after": 54000,
+      "rules_fired": [
+        "R7"
+      ]
+    },
+    {
+      "case_id": "CASE-002",
+      "verifier_decision": "REJECT_INELIGIBLE_INCOME",
+      "disbursing_action": "NONE",
+      "pool_before": 54000,
+      "pool_after": 54000,
+      "rules_fired": [
+        "R5"
+      ]
+    },
+    {
+      "case_id": "CASE-003",
+      "verifier_decision": "ESCALATE_REQUIRES_HUMAN",
+      "disbursing_action": "NONE",
+      "pool_before": 54000,
+      "pool_after": 54000,
+      "rules_fired": [
+        "R4"
+      ]
+    }
+  ],
+  "public_roll": [
+    {
+      "case_ref": "CASE-001",
+      "amount_pkr": 12000
+    }
+  ]
+}

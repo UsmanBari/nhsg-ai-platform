@@ -1,0 +1,25 @@
+{
+  "case_ref": "string",
+  "decision": "string",
+  "rule_fired": "string",
+  "evidence_used": [
+    "string"
+  ],
+  "evidence_ignored": [
+    {
+      "item": "string",
+      "reason": "string"
+    }
+  ],
+  "policy_applied": {
+    "policy_version": "string",
+    "thresholds_version": "string"
+  },
+  "explanation": "string",
+  "engineering_confidence": {
+    "evidence_complete": "string",
+    "rule_order_verified": "string",
+    "decision_independently_validated": "string"
+  },
+  "timestamp": "string"
+}

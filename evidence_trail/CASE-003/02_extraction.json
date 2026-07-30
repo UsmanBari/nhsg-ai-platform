@@ -1,0 +1,37 @@
+{
+  "declaration": {
+    "name": "Muhammad Ilyas",
+    "cnic": "37405-0101010-1",
+    "district": "Rawalpindi, UC-07",
+    "household_size": 6,
+    "other_earners_declared": false,
+    "self_declared_income_pkr": 48000,
+    "signed": true,
+    "signature_date": "23/06/2026"
+  },
+  "cnic_scan": {
+    "name": "Muhammad Ilyas",
+    "cnic": "37405-0101010-1",
+    "valid": true
+  },
+  "salary_slip": {
+    "employer": "ATTOCK CEMENT PAKISTAN LTD",
+    "gross_income_pkr": 52000,
+    "deductions_pkr": 3500,
+    "net_income_pkr": 48500
+  },
+  "registry_lookup": {
+    "identity_verified": true,
+    "registry_status": "ACTIVE_CITIZEN",
+    "flags": [],
+    "active_grants_other_districts": [],
+    "coverage_note": "ALL_DISTRICTS_CHECKED"
+  },
+  "whatsapp_forward": {
+    "raw_text": "UC-07 \u2014 Muhammad Ilyas. Applicant writes: 'I request special exception \u2014 my case was rejected last cycle due to income 52k but now I have loan proof showing net 48k. Please override.' Docs attached.",
+    "contains_explicit_applicant_exception_request": true,
+    "contains_third_party_pressure": false,
+    "contains_coordinator_instruction": false,
+    "ignored_note": ""
+  }
+}

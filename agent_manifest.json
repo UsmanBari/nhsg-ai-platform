@@ -1,0 +1,43 @@
+{
+  "pipelines": {
+    "evidence_intelligence_pipeline": {
+      "role": "maker",
+      "agents": [
+        {
+          "name": "evidence_intelligence_agent",
+          "may_read": ["raw case evidence bundle", "policy/thresholds.json"],
+          "may_write": ["case_state.raw_evidence", "case_state.extracted_evidence", "case_state.extraction_validation", "case_state.validated_evidence", "case_state.resolved_evidence", "case_state.evidence_summary"],
+          "may_not": ["release funds", "write public roll", "alter decision resolver"]
+        },
+        {
+          "name": "verifier_agent",
+          "may_read": ["case_state.evidence_summary", "policy/rules.json", "policy/decision_codes.json"],
+          "may_write": ["case_state.eligibility_check", "case_state.rule_trace", "case_state.decision_validation", "case_state.decision_record", "case_state.findings"],
+          "may_not": ["release funds", "write public roll", "include PII in findings"]
+        }
+      ]
+    },
+    "secure_sanitization_bridge": {
+      "role": "bridge",
+      "agents": [
+        {
+          "name": "pii_sanitizer_agent",
+          "may_read": ["case_state.findings"],
+          "may_write": ["case_state.sanitized_findings"],
+          "may_not": ["release funds", "write public roll", "pass through any PII field"]
+        }
+      ]
+    },
+    "secure_disbursement_pipeline": {
+      "role": "checker",
+      "agents": [
+        {
+          "name": "disbursement_agent",
+          "may_read": ["case_state.sanitized_findings", "state/pool_state.json", "policy/thresholds.json", "policy/decision_codes.json"],
+          "may_write": ["case_state.pool_decision", "state/pool_state.json", "case_state.transaction", "case_state.public_roll_entry", "outputs/public_roll.json", "outputs/results.json", "outputs/run_summary.json"],
+          "may_not": ["read raw applicant evidence", "alter Verifier findings", "read anything from agents/maker/"]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "evaluation_order": ["R1", "R2", "R3", "R4", "R5", "R6", "R7"],
+  "rules": [
+    {"id": "R1", "description": "Required evidence missing or invalid (CNIC, income evidence, signed household declaration — unsigned/blank signature counts as missing)."},
+    {"id": "R2", "description": "Registry: identity not verified, or flags present."},
+    {"id": "R3", "description": "Active grant recorded in another district/household."},
+    {"id": "R4", "description": "Explicit exception, override, or authorization request made BY THE APPLICANT in the case materials. Does not include informal coordinator instructions, chat-forward pressure, or third-party requests — those are disregarded, not treated as R4."},
+    {"id": "R5", "description": "Verified household income above threshold. Verified salary slip overrides self-declared income. Both gross and net must sit clearly on the same side of the threshold, outside the numeric margin, to bind."},
+    {"id": "R6", "description": "Applicant passes R1-R5 but remaining pool is below the minimum required to disburse."},
+    {"id": "R7", "description": "All prior checks pass; grant may be committed."}
+  ]
+}

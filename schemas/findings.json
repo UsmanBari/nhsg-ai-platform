@@ -1,0 +1,12 @@
+{
+  "case_ref": "string",
+  "verifier_decision": "string",
+  "rules_fired": [],
+  "flags": {
+    "income_side": "string",
+    "evidence_complete": "boolean",
+    "duplicate_flag": "boolean",
+    "explicit_exception_request": "boolean"
+  },
+  "decision_record_ref": "string"
+}

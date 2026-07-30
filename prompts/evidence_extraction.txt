@@ -1,0 +1,46 @@
+Extract structured information from the following document text.
+You must return JSON ONLY. Do not write any explanations, code block formatting, or conversational text.
+
+If document_type is "declaration":
+Expected schema:
+{
+  "name": string (applicant's full name),
+  "cnic": string (Pakistani CNIC format, e.g., 42101-2222222-3),
+  "district": string (extracted district name),
+  "household_size": integer,
+  "other_earners_declared": boolean (true if other earners is YES, false if NO),
+  "self_declared_income_pkr": integer,
+  "signed": boolean (true if signature is present/signed),
+  "signature_date": string (format DD/MM/YYYY)
+}
+
+If document_type is "cnic_scan":
+Expected schema:
+{
+  "name": string (full name),
+  "cnic": string (Pakistani CNIC format),
+  "valid": boolean (true if card is valid)
+}
+
+If document_type is "salary_slip":
+Expected schema:
+{
+  "employer": string (company/employer name),
+  "gross_income_pkr": integer,
+  "deductions_pkr": integer,
+  "net_income_pkr": integer
+}
+
+If document_type is "registry_lookup":
+Expected schema:
+{
+  "identity_verified": boolean,
+  "registry_status": string,
+  "flags": array of strings (e.g. ["FLAG1"] or [] if NONE),
+  "active_grants_other_districts": array of strings or [] if NONE,
+  "coverage_note": string
+}
+
+Document Type: {document_type}
+Document Text:
+{document_text}

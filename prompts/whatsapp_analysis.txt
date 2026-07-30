@@ -1,0 +1,13 @@
+Analyze the following WhatsApp message forward text to classify exception requests and pressure flags.
+You must return JSON ONLY. Do not write any explanations, markdown block formats, or conversational text.
+
+Expected JSON schema:
+{
+  "contains_explicit_applicant_exception_request": boolean (true if the applicant themselves writes/submits an explicit override or exception request, false if it is just a coordinator or third party note),
+  "contains_third_party_pressure": boolean (true if a coordinator, MNA, politician, or third party asks to hold/override/approve),
+  "contains_coordinator_instruction": boolean (true if a district coordinator instructs to hold/verify),
+  "ignored_note": string (a short summary of the informal instruction or pressure note that is ignored)
+}
+
+WhatsApp Text:
+{whatsapp_text}

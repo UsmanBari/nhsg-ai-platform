@@ -1,0 +1,18 @@
+{
+  "case_id": "string",
+  "raw_evidence": {},
+  "extracted_evidence": {},
+  "extraction_validation": {},
+  "validated_evidence": {},
+  "resolved_evidence": {},
+  "evidence_summary": {},
+  "eligibility_check": {},
+  "rule_trace": {},
+  "decision_validation": {},
+  "decision_record": {},
+  "findings": {},
+  "sanitized_findings": {},
+  "pool_decision": {},
+  "transaction": {},
+  "public_roll_entry": null
+}
