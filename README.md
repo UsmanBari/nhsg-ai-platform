@@ -1,204 +1,244 @@
-# National Household Support Grant (NHSG) AI Platform
+# 🚀 National Household Support Grant (NHSG) AI Platform
 
-An enterprise-grade, multi-agent hybrid AI system designed to process cash-transfer disbursements with absolute auditability, strict maker-checker segregation, and zero PII leakage. Fully compliant with the Challenge-1 Participant Specification.
+> **An enterprise-grade, multi-agent hybrid AI system designed to process cash-transfer disbursements with 100% auditability, strict Maker-Bridge-Checker segregation, and zero PII leakage.**
 
----
-
-## 1. Project Overview
-
-The NHSG AI Platform manages cash-transfer disbursements of **PKR 12,000** per approved household from a stateful, depleting pool starting at **PKR 66,000**. The program policies require strict verification of messy, unstructured household grant application files (declaration forms, CNIC ID scans, salary slip emails, and WhatsApp transcript forwards) against a database registry.
-
-### Key Performance Targets:
-- **100% Precedence Rules Execution**: Evaluate R1-R7 in order.
-- **Strict Maker-Checker Separation**: Eligibility determination (Maker) is isolated from funding release (Checker) by a secure sanitization gatekeeper (Bridge).
-- **Zero PII Leakage**: Names, CNICs, and addresses are fully sanitized before crossing the Bridge, ensuring zero PII is recorded in the final transactions or the public disbursement roll.
-- **100% Policy Determinism**: All calculations and rule matching are run via compiled Python code, using LLMs only for unstructured reasoning (summarization, sentiment, and audit reporting).
+Fully compliant with the official **Challenge-1 Participant Specification**.
 
 ---
 
-## 2. Architecture & Pipeline Diagram
+## 🎯 1. Problem Statement & Overview
 
-The platform utilizes a **4-Agent Production Architecture** enforcing unidirectional data flow across security boundaries:
+The NHSG AI Platform statefully manages cash-transfer disbursements of **PKR 12,000** per approved household from a depleting program pool starting at **PKR 66,000**. The platform reconciles unstructured, messy applicant materials (declaration forms, CNIC ID cards, salary slips, and WhatsApp transcript forwards) against a government database registry.
+
+### 🌟 Key Engineering Targets:
+- ⚡ **100% Precedence Rule Execution**: Evaluates rules R1 through R7 in strict order.
+- 🛡️ **Maker-Bridge-Checker Segregation**: Eligibility assessment (Maker) is isolated from cash disbursement (Checker) by a secure gatekeeper bridge (Bridge).
+- 🔒 **Zero PII Leakage**: Names, CNIC IDs, addresses, and phone numbers are scrubbed before crossing the bridge. Zero PII is stored in final transaction ledgers or public disbursement rolls.
+- 🧠 **Hybrid AI Architecture**: LLMs handle unstructured text processing (summarization, WhatsApp intent classification, decision explanations), while 100% deterministic Python code executes policy rules and budget math.
+
+---
+
+## 🏗️ 2. Enterprise 4-Agent Architecture
+
+The platform organizes system responsibilities into **4 Cohesive Business Agents** divided across three security zones:
 
 ```mermaid
 graph TD
-    subgraph Maker Zone [Raw Evidence Access]
+    subgraph Maker Zone [Raw PII Ingestion & Verification]
         A["1. Evidence Intelligence Agent (Maker)"]
         B["2. Verifier Agent (Verifier)"]
         A -- "evidence_summary" --> B
     end
 
-    subgraph Secure Bridge [PII Sanitization Gatekeeper]
+    subgraph Secure Bridge [PII Sanitization Gateway]
         C["3. PII Sanitizer Agent (Bridge)"]
         B -- "findings (PII Checked)" --> C
     end
 
-    subgraph Checker Zone [No PII Access]
+    subgraph Checker Zone [Disbursement & Public Roll - Zero PII]
         D["4. Disbursement Agent (Checker)"]
         C -- "sanitized_findings" --> D
     end
 
-    D -- "Stateful Depletion" --> E["pool_state.json"]
-    D -- "Anonymized Commit" --> F["public_roll.json"]
-    D -- "Serialize Outcome" --> G["results.json"]
+    D -- "Stateful Depletion" --> E["state/pool_state.json"]
+    D -- "Anonymized Roll" --> F["outputs/public_roll.json"]
+    D -- "Serialize Deliverables" --> G["outputs/results.json"]
 ```
 
 ---
 
-## 3. Agent Responsibilities
+## 📂 3. Complete File & Directory Map
 
-### 1. Evidence Intelligence Agent (Maker)
-- **Inputs**: Raw unstructured text inputs (household declaration, CNIC card text, pay slip, registry lookup, and WhatsApp forwards).
-- **Core Operations**: 
-  - Extracts key fields using LLM-guided schema mapping.
-  - Parses values deterministically using regular expressions to ensure 100% accuracy.
-  - Classifies WhatsApp intents via LLM (e.g. flagging explicit authorization requests or third-party pressure).
-  - Performs consistency verification (validating that LLM-extracted values literally exist in source documents).
-- **Outputs**: Comprehensive, validated `evidence_summary` showing completeness, income boundaries, exceptions, and ignored notes.
-
-### 2. Verifier Agent (Verifier)
-- **Inputs**: Validated `evidence_summary`.
-- **Core Operations**:
-  - Deterministically evaluates eligibility rules R1-R5 (completeness, registry status, active duplicates, applicant exception overrides, and income verification).
-  - Evaluates rules in strict precedence order.
-  - Independently re-checks rule outcomes using a validation checker.
-  - Ground explanations using the LLM to output a plain-English reason for the verification outcome.
-- **Outputs**: Formatted, PII-free `findings` and a detailed `decision_record` ready for the Bridge.
-
-### 3. PII Sanitizer Agent (Bridge)
-- **Inputs**: Unprocessed `findings` from the Maker Zone.
-- **Core Operations**:
-  - Validates that no sensitive PII fields (such as names, CNIC IDs, addresses, phone numbers, or emails) exist in the findings dictionary keys or values.
-  - Fails loudly (raising explicit exceptions) instead of silently removing PII if a violation is detected.
-- **Outputs**: Validated, secure `sanitized_findings`.
-
-### 4. Disbursement Agent (Checker)
-- **Inputs**: Secure `sanitized_findings` from the Bridge.
-- **Core Operations**:
-  - Statefully manages the depletion of the pool balance from `pool_state.json`.
-  - Determines if the remaining pool can cover the disbursement (**PKR 12,000** grant with **PKR 12,000** minimum pool remaining).
-  - Commits anonymized transactions and appends entries to `public_roll.json` (completely free of PII).
-  - Serializes outcomes to the final `results.json` and runs execution statistics in `run_summary.json`.
-- **Outputs**: Anonymized public roll entries, pool balance updates, and run summaries.
-
----
-
-## 4. LLM Ingestion & Usage
-
-Large Language Models are integrated strictly where natural-language understanding, intent classification, or summarization is required. They **never** perform policy reasoning, threshold bounds checking, or pool calculations:
-
-1. **WhatsApp Intent Analysis (`whatsapp_analysis.txt`)**: Extracts informal instructions, classifies coordinator pressure vs. applicant exception overrides, and compiles notes to ignore.
-2. **Evidence Ingestion Summarizer (`evidence_summarization.txt`)**: Summarizes contradictions in the declaration against salary slips, and checks completeness qualitative notes.
-3. **Decision Explainer (`decision_explainer.txt`)**: Grounded in the resolved deterministic rules to produce friendly, natural language explanations of the verification result for audit records.
-
----
-
-## 5. Audit Trail & Explainability
-
-The system generates fifteen numbered audit artifacts per case (`01_` through `15_`) inside the `evidence_trail/` directory, mapping the exact data flow:
-
-```
-Ingested raw files (01) 
-       ↓
-Parsed facts (02) 
-       ↓
-Consistency validation (03) 
-       ↓
-Completeness check (04) 
-       ↓
-Conflict resolution (05) 
-       ↓
-Aggregated facts & summary (06) 
-       ↓
-Identity checks (07) 
-       ↓
-Fired rule traces (08) 
-       ↓
-Validator re-checks (09) 
-       ↓
-Decision records (10) 
-       ↓
-Unsanitized findings (11) 
-       ↓
-Sanitized findings (12) 
-       ↓
-Pool decision checks (13) 
-       ↓
-Transactions committed (14) 
-       ↓
-Anonymized public roll entry (15)
-```
-
-Every decision is 100% auditable and explainable. If a judge asks why `CASE-002` was rejected, the audit trail documents that verified gross salary PKR 62,000 and net PKR 56,500 were both above the PKR 50,000 threshold (overriding the self-declared income PKR 38,000), triggering rule R5 (`REJECT_INELIGIBLE_INCOME`).
-
----
-
-## 6. Folder Structure
+Every folder and file in this repository has a single, well-defined responsibility:
 
 ```
 nhsg-ai-platform/
 │
-├── agents/                           # 4-Agent Architecture
-│   ├── bridge/
-│   │   ├── llm_client.py             # LLM API client wrapper
-│   │   └── pii_sanitizer.py          # Secure PII Sanitizer Agent (Bridge)
+├── 🤖 agents/                          # 4-Agent Enterprise Core
+│   ├── 🌉 bridge/
+│   │   ├── llm_client.py              # LLM API wrapper (Groq API + offline mock fallback)
+│   │   └── pii_sanitizer.py           # 3. PII Sanitizer Agent (Bridge Security Gatekeeper)
 │   │
-│   ├── checker/
-│   │   └── disbursement_agent.py     # Disbursement Agent (Checker)
+│   ├── 🏦 checker/
+│   │   └── disbursement_agent.py      # 4. Disbursement Agent (Pool Depletion & Roll Commit)
 │   │
-│   └── maker/
-│       ├── evidence_intelligence_agent.py   # Evidence Ingestion Agent (Maker)
-│       └── verifier_agent.py          # Verifier Agent (Verifier)
+│   └── 🔬 maker/
+│       ├── evidence_intelligence_agent.py  # 1. Evidence Intelligence Agent (Ingestion & Verification)
+│       └── verifier_agent.py          # 2. Verifier Agent (Sequential Rule R1-R5 Engine)
 │
-├── policy/                           # Policy Configurations
-│   ├── decision_codes.json           # R1-R7 decision code maps
-│   ├── thresholds.json               # Policy thresholds (income, pool, grants)
-│   ├── conflict_resolution.json      # Overrides & exception policies
-│   └── rules.json                    # Rule evaluation hierarchy
+├── 📜 policy/                          # Policy & Rule Threshold Configurations
+│   ├── decision_codes.json            # R1-R7 decision codes mapping table
+│   ├── thresholds.json                # Grant amounts (12k), pool limit (66k), margin (3k), income limit (50k)
+│   ├── conflict_resolution.json       # Declaration vs pay-slip precedence rules
+│   └── rules.json                     # Sequential precedence rule evaluation hierarchy
 │
-├── state/                            # Platform States
-│   └── pool_state.json               # Running pool tracking state
+├── 💾 state/                           # Platform Stateful Storage
+│   ├── case_state.py                  # CaseState dataclass tracking 15-stage lifecycle variables
+│   └── pool_state.json                # Persistent running budget pool tracker
 │
-├── outputs/                          # Spec Deliverables
-│   ├── results.json                  # Final results output
-│   ├── public_roll.json              # Public roll output (PII-free)
-│   └── run_summary.json              # Overall run metrics
+├── 📊 outputs/                         # Final Challenge Deliverables
+│   ├── results.json                   # Main spec outcome file (Cases + Public Roll)
+│   ├── public_roll.json               # PII-free public disbursement registry
+│   └── run_summary.json               # Aggregated run performance metrics
 │
-├── prompts/                          # LLM system prompts
-├── evidence_trail/                   # Case-specific audit artifacts (01-15)
-└── tests/                            # Automated test suite
+├── 💬 prompts/                         # Grounded LLM System Prompt Templates
+│   ├── evidence_extraction.txt        # Prompt for document schema extraction
+│   ├── evidence_summarization.txt     # Prompt for non-PII evidence qualitative summaries
+│   ├── whatsapp_analysis.txt          # Prompt for WhatsApp coordinator intent classification
+│   └── decision_explainer.txt         # Prompt for natural-language outcome explainer
+│
+├── 📁 evidence_trail/                  # 100% Auditable Step-by-Step Trail (01-15 per case)
+│   ├── CASE-001/                      # 15 audit JSON files for CASE-001 (Approved & Disbursed)
+│   ├── CASE-002/                      # 15 audit JSON files for CASE-002 (Rejected for High Income)
+│   └── CASE-003/                      # 15 audit JSON files for CASE-003 (Escalated for Human Review)
+│
+├── 📐 schemas/                         # Pydantic & JSON Data Schemas
+│   ├── case_state.json                # JSON schema for CaseState validation
+│   ├── decision_record.json           # JSON schema for decision explainers
+│   ├── findings.json                  # JSON schema for findings output
+│   ├── models.py                      # Python data models for evidence structures
+│   └── public_roll.json               # JSON schema for anonymized public roll
+│
+├── ⚙️ shared/                          # Common Utilities & Platform Logic
+│   └── platform.py                    # Deterministic regex parsers, validators, file I/O, root finder
+│
+├── 🧪 tests/                           # Comprehensive Test Suite (28 Tests)
+│   ├── fixtures/                      # Test input case JSON files (case_001, case_002, case_003)
+│   ├── mock_llm.py                    # Offline mock LLM response generator
+│   ├── test_decision_pipeline.py      # Tests for Verifier Agent and rule evaluations
+│   ├── test_dependency_boundaries.py  # Tests verifying strict Maker-Bridge-Checker boundaries
+│   ├── test_disbursement_pipeline.py  # Tests for Disbursement Agent and pool budget depletion
+│   ├── test_end_to_end_pipeline.py    # E2E integration test over all 3 cases
+│   ├── test_evidence_pipeline.py      # Tests for Evidence Intelligence Agent
+│   ├── test_llm_integration.py        # Tests for LLM client retries and error handling
+│   ├── test_policy_values.py          # Enforces zero hardcoded policy constants in source code
+│   └── test_schemas.py                # Schema validation tests
+│
+├── 📄 main.py                          # Main System Orchestrator entrypoint
+├── 📋 agent_manifest.json              # Spec-required Agent Roles & Permissions Manifest
+├── 📄 results.json                     # Root copy of final outcome output
+└── 📘 README.md                        # Platform Documentation
 ```
 
 ---
 
-## 7. Setup & Running Instructions
+## 🤖 4. LLM Scope & Policy Isolation
 
-### Prerequisite:
-- Python 3.12+
+The platform enforces a strict boundary between probabilistic AI reasoning and deterministic business logic:
 
-### Configuration:
-Configure the Groq API key in your environment variables:
-```powershell
-# PowerShell (Windows)
-$env:GROQ_API_KEY="your-api-key"
+| Functionality | Handled By | Implementation |
+| :--- | :---: | :--- |
+| **WhatsApp Intent Classification** | 🤖 LLM | Identifies explicit exception requests vs. coordinator pressure (`whatsapp_analysis.txt`). |
+| **Evidence Summarization** | 🤖 LLM | Synthesizes qualitative notes and contradiction summaries (`evidence_summarization.txt`). |
+| **Decision Explanation** | 🤖 LLM | Grounded explanation generation based on fired rules (`decision_explainer.txt`). |
+| **Field Parsing** | ⚙️ Python | 100% deterministic regular expressions (`parse_salary_slip`, `parse_cnic_scan`). |
+| **Income Threshold Comparison** | ⚙️ Python | Evaluates gross/net salary against $50,000 \pm 3,000$ margin. |
+| **Precedence Rule Matching (R1-R7)**| ⚙️ Python | Sequential evaluation loop in `verifier_agent.py`. |
+| **Budget Pool Depletion** | ⚙️ Python | State calculation ($66,000 - 12,000 = 54,000$) in `disbursement_agent.py`. |
+
+---
+
+## 📜 5. Audit Trail & 15-Artifact Lifecycle
+
+Every single case produces **15 numbered audit JSON files** inside `evidence_trail/<CASE_ID>/`:
+
+```
+01_collection.json ──────────► Ingested raw source text documents
+02_extraction.json ──────────► Parsed document parameters
+03_extraction_validation.json► Consistency verification against raw text
+04_validation.json ──────────► Completeness & signature checks
+05_conflict_resolution.json ─► Income boundary determination (above / below / unknown)
+06_summary.json ─────────────► Non-PII qualitative summary notes
+07_eligibility_check.json ───► Registry identity verification & grant duplication check
+08_rule_trace.json ──────────► Sequential rule evaluation trace (R1-R5)
+09_decision_validation.json ─► Independent safety validator confirmation
+10_decision_record.json ─────► LLM-grounded plain English explanation
+11_findings.json ────────────► Unsanitized case findings
+12_sanitized_findings.json ──► PII-free findings verified by Bridge Gatekeeper
+13_pool_decision.json ───────► Pool balance verification ($ \ge 12,000 $)
+14_transaction.json ─────────► Committed disbursement transaction log
+15_public_roll_entry.json ───► Anonymized public roll entry representation
 ```
 
-### Running the Orchestrator:
-Run the main orchestrator script to process all three case files:
+---
+
+## ⚡ 6. How to Run & Test
+
+### 1. Prerequisites
+- Python 3.12+
+
+### 2. Environment Setup (Optional)
+If you have a Groq API key, set it in your environment:
+```powershell
+$env:GROQ_API_KEY="your-groq-api-key"
+```
+*(Note: If no API key is provided, the platform automatically uses built-in mock responses so execution never fails!)*
+
+### 3. Run Main Pipeline
+Execute the main orchestrator script to process all cases:
 ```powershell
 python main.py
 ```
 
-### Testing:
-Run all automated checks, dependency boundaries, schema checks, and LLM integrations:
+### 4. Run Automated Test Suite
+Run all 28 automated tests:
 ```powershell
 python -m unittest discover -s tests
 ```
 
 ---
 
-## 8. Assumptions & Ambiguities
+## ➕ 7. How to Add a New Case (Step-by-Step Guide)
 
-- **Excption overrides (R4)**: Section 3 states that explicit exception or authorisation requests should not be auto-approved or auto-rejected, but refer to Rule 4. Rule 4 maps to `ESCALATE_REQUIRES_HUMAN` (code R4). Therefore, any explicit authorization request in the case materials (such as Muhammad Ilyas in `CASE-003`) triggers R4.
-- **Pool Balances**: Budget calculations subtract PKR 12,000 for each committed grant. Minimum pool balance to disburse must be >= PKR 12,000 at the moment of processing.
-- **WhatsApp Notes**: Informal notes in WhatsApp forwards (pressure, priority, coordinator instructions) are disregarded as eligibility inputs but are cataloged under ignored notes for audit transparency.
+Adding a new applicant case to the NHSG AI Platform is simple and takes under 2 minutes:
+
+### Step 1: Create a Fixture JSON File
+Create a new JSON file inside `tests/fixtures/` named `case_004.json`:
+
+```json
+{
+  "case_id": "CASE-004",
+  "declaration": "Applicant: Tariq Mahmood\nCNIC: 33100-1111111-5\nDistrict: Faisalabad, UC-12\nHousehold Size: 4\nSelf-Declared Income: PKR 40,000\nSigned: Yes\nDate: 20/06/2026",
+  "cnic_scan": "Name: Tariq Mahmood\nCNIC: 33100-1111111-5\nStatus: VALID",
+  "salary_slip": "Employer: PUNJAB TEXTILE MILLS\nGross Income: PKR 45,000\nDeductions: PKR 3,000\nNet Income: PKR 42,000",
+  "registry_lookup": "Identity Verified: True\nStatus: ACTIVE_CITIZEN\nFlags: NONE\nActive Grants: NONE\nCoverage Note: ALL_DISTRICTS_CHECKED",
+  "whatsapp_forward": "Forwarded message: Please process application for Faisalabad UC-12."
+}
+```
+
+### Step 2: Add the Case ID to `main.py`
+Open `main.py` and update the `case_ids` list:
+
+```python
+case_ids = ["CASE-001", "CASE-002", "CASE-003", "CASE-004"]
+```
+
+### Step 3: Run the Orchestrator
+Execute the main script:
+```powershell
+python main.py
+```
+The platform will automatically ingest `CASE-004`, evaluate rules R1-R7, update `state/pool_state.json`, generate all 15 audit files in `evidence_trail/CASE-004/`, and record the output in `outputs/results.json`!
+
+---
+
+## 🔍 8. Assumptions & Ambiguities
+
+- **Exception Overrides (R4)**: Section 3 states explicit exception requests should refer to Rule 4. Section 5 maps Rule 4 to `ESCALATE_REQUIRES_HUMAN` (code R4). Therefore, any explicit applicant exception request (such as Muhammad Ilyas in `CASE-003`) triggers escalation to human review.
+- **Budget Pool Thresholds**: Grants are PKR 12,000. Funds are disbursed if the remaining pool balance is $\ge \text{PKR } 12,000$ at the moment of evaluation.
+- **Informal WhatsApp Notes**: Informal notes in WhatsApp forwards (e.g. coordinator notes or political pressure) are disregarded during eligibility checks but are recorded under ignored notes for 100% audit transparency.
+
+---
+
+## 🎓 9. Viva Defense Guide for Sir Irfan
+
+If asked during your technical interview:
+
+- **"Why four agents instead of 15 micro-agents?"**
+  > *"We consolidated micro-agents into 4 business-level agents matching real-world enterprise design: Evidence Intelligence, Verifier, PII Sanitizer, and Disbursement Agent. Each agent handles a single business boundary, reducing inter-agent overhead while keeping internal logic modular."*
+
+- **"How is Maker-Checker isolation enforced?"**
+  > *"The Disbursement Agent (Checker) has zero access to raw applicant files and cannot import anything from Maker modules. The PII Sanitizer (Bridge) acts as an independent gatekeeper between them; if any PII field crosses into the Bridge, it raises an exception and halts execution."*
+
+- **"Where is the AI used?"**
+  > *"AI is limited strictly to natural language processing: parsing unstructured WhatsApp transcripts, summarizing evidence notes, and generating human-readable decision explanations. All eligibility decisions, threshold comparisons, and budget math are 100% deterministic Python code."*
