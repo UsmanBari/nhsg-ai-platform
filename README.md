@@ -1,23 +1,51 @@
 # 🚀 National Household Support Grant (NHSG) AI Platform
 
-An enterprise-grade, multi-agent hybrid AI system designed to process cash-transfer disbursements with absolute auditability, strict Maker-Bridge-Checker segregation, and zero PII leakage. Fully compliant with the official **Challenge-1 Participant Specification**.
+> **A multi-agent AI platform for processing household grant applications with deterministic policy evaluation, complete audit trails, and Maker–Bridge–Checker separation.**
+
+Fully compliant with the official **Challenge-1 Participant Specification**.
+
+---
+
+## ⚡ Quick Architecture Overview
+
+```mermaid
+graph LR
+    A["Raw Documents\n(Declaration, CNIC, Pay Slip)"] --> B["1. Evidence Intelligence\n(Maker)"]
+    B --> C["2. Verifier Agent\n(Maker)"]
+    C --> D["3. PII Sanitizer\n(Bridge Gatekeeper)"]
+    D --> E["4. Disbursement Agent\n(Checker)"]
+    E --> F["Outputs\n(results.json, public_roll.json)"]
+```
+
+---
+
+## ✨ Key Features
+
+- **Multi-Agent Architecture**: Consolidated into 4 distinct, business-aligned agents.
+- **Maker–Bridge–Checker Separation**: Strict security isolation between evidence processing and fund release.
+- **Deterministic Rule Engine**: All policy evaluation, threshold math, and precedence rule matching executed via Python code.
+- **LLM-Assisted Evidence Understanding**: Natural language processing for WhatsApp transcripts, qualitative summaries, and decision explainers.
+- **Stateful Budget Pool**: Accurate, persistent tracking of grant disbursements against program budget limits.
+- **Complete Audit Trail**: 15 numbered audit JSON files generated per case for full trace-to-source explainability.
+- **Zero PII Public Roll**: Unidirectional sanitization gatekeeper ensures public roll contains no personal credentials.
+- **28 Automated Tests**: Comprehensive unit, boundary, schema, and E2E integration test suite.
 
 ---
 
 ## 📋 1. Executive Summary & Problem Domain
 
-The **National Household Support Grant (NHSG) AI Platform** statefully manages cash grant disbursements of **PKR 12,000** per eligible household from a depleting program pool starting at **PKR 66,000**. The system automates the processing of messy, unstructured household application materials—including household declaration forms, CNIC ID cards, salary slips, and WhatsApp transcript forwards—against official government database registries and program policies.
+The **National Household Support Grant (NHSG) AI Platform** statefully manages cash grant disbursements of **PKR 12,000** per eligible household from a depleting program pool starting at **PKR 66,000**. The system automates the processing of unstructured household application materials—including household declaration forms, CNIC ID cards, salary slips, and WhatsApp transcript forwards—against official government database registries and program policies.
 
-### 🌟 Core Performance Highlights:
-- ⚡ **100% Precedence Rule Execution**: Evaluates rules R1 through R7 in strict, deterministic precedence order.
+### 🌟 Core Design Goals:
+- ⚡ **Precedence Rule Execution**: Evaluates rules R1 through R7 in strict, deterministic precedence order.
 - 🛡️ **Maker-Bridge-Checker Isolation**: Isolates eligibility determination (Maker) from cash release (Checker) through a unidirectional security gatekeeper (Bridge).
 - 🔒 **Zero PII Leakage**: Names, CNIC IDs, phone numbers, and street addresses are scrubbed prior to crossing the Bridge. Zero PII is stored in final transaction ledgers or public disbursement rolls.
-- 🧠 **Hybrid AI Architecture**: Large Language Models (LLMs) process unstructured natural language (WhatsApp intent classification, qualitative evidence summarization, decision explainers), while compiled Python code handles 100% of policy math, threshold checks, and budget state tracking.
-- 📜 **100% Auditability**: Produces fifteen numbered audit JSON files (`01_` through `15_`) per case, establishing a complete trace-to-source record.
+- 🧠 **Hybrid AI Architecture**: Large Language Models (LLMs) process unstructured natural language (WhatsApp intent classification, qualitative evidence summarization, decision explainers), while compiled Python code handles policy math, threshold checks, and budget state tracking.
+- 📜 **Complete Audit Trail**: Produces fifteen numbered audit JSON files (`01_` through `15_`) per case, establishing a complete trace-to-source record.
 
 ---
 
-## 🏗️ 2. Architecture & Pipeline System Design
+## 🏗️ 2. Production Architecture & System Design
 
 The platform organizes system operations into **4 Cohesive Business Agents** spanning three security zones:
 
@@ -57,7 +85,7 @@ graph TD
 - **Primary Function**: Ingests, parses, and validates unstructured applicant materials.
 - **Core Operations**:
   - Ingests 5 raw document types (Declaration, CNIC Scan, Salary Slip, Registry Lookup, WhatsApp Forward).
-  - Extracts key entities using LLM schema mapping combined with regular expressions (`parse_salary_slip`, `parse_cnic_scan`, `parse_declaration`).
+  - Extracts document fields using deterministic regular expressions (`parse_salary_slip`, `parse_cnic_scan`), while utilizing the LLM for schema mapping and qualitative text understanding.
   - Classifies WhatsApp transcript intents via LLM (`whatsapp_analysis.txt`), identifying explicit applicant exception requests vs. third-party or coordinator pressure.
   - Performs consistency validation by checking that extracted values literally exist within raw text files (`validate_extraction`).
   - Evaluates household income boundaries by comparing gross/net pay slip amounts against self-declared income and policy threshold parameters ($50,000 \text{ PKR} \pm 3,000 \text{ PKR margin}$).
@@ -115,7 +143,7 @@ The system establishes a clean separation between deterministic code execution a
 | **Numeric Field Parsing** | ⚙️ Python | `shared/platform.py` | Uses deterministic regex patterns (`parse_salary_slip`) to prevent LLM extraction errors. |
 | **Income Threshold Evaluation** | ⚙️ Python | `evidence_intelligence_agent.py` | Math operations ($50\text{k} \pm 3\text{k}$) require exact precision. |
 | **Sequential Rule Matching (R1-R7)** | ⚙️ Python | `verifier_agent.py` | Policy rules must follow strict, deterministic precedence. |
-| **Budget Pool State Tracking** | ⚙️ Python | `disbursement_agent.py` | Financial transactions require 100% deterministic accounting. |
+| **Budget Pool State Tracking** | ⚙️ Python | `disbursement_agent.py` | Financial transactions require deterministic accounting. |
 
 ---
 
@@ -328,4 +356,4 @@ Run `python main.py`. The platform will:
 
 - **Applicant Exception Handling (R4)**: Section 3 specifies that explicit exception requests should not be auto-approved or auto-rejected, but refer to Rule 4. Section 5 maps Rule 4 to `ESCALATE_REQUIRES_HUMAN` (code R4). Therefore, any explicit applicant exception request (such as Muhammad Ilyas in `CASE-003`) routes to human escalation queue.
 - **Budget Balance Minimum Bounds**: Grant disbursements are PKR 12,000 per approved household. Disbursements are committed if remaining pool balance is $\ge \text{PKR } 12,000$ at the moment of evaluation.
-- **WhatsApp Informal Materials**: Coordinator instructions or political pressure notes found in WhatsApp forwards are disregarded during eligibility determinations, but are cataloged under ignored notes for 100% audit transparency.
+- **WhatsApp Informal Materials**: Coordinator instructions or political pressure notes found in WhatsApp forwards are disregarded during eligibility determinations, but are cataloged under ignored notes for audit transparency.
