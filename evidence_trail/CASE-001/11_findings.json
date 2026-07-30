@@ -1,0 +1,12 @@
+{
+  "case_ref": "CASE-001",
+  "verifier_decision": "PENDING_R6_R7",
+  "rules_fired": [],
+  "flags": {
+    "income_side": "below_threshold",
+    "evidence_complete": true,
+    "duplicate_flag": false,
+    "explicit_exception_request": false
+  },
+  "decision_record_ref": "10_decision_record.json"
+}

@@ -1,0 +1,13 @@
+{
+  "income_side": "below_threshold",
+  "gross_income_pkr": 44000,
+  "net_income_pkr": 40800,
+  "explicit_exception_request": false,
+  "ignored_informal_notes": [
+    {
+      "source": "whatsapp_forward",
+      "note": "District coordinator said 'hold this one, verify extra' but no rule cited.",
+      "reason": "informal coordinator/third-party instruction, not an eligibility input"
+    }
+  ]
+}

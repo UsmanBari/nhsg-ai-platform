@@ -1,0 +1,37 @@
+{
+  "declaration": {
+    "name": "Ahmed Khan",
+    "cnic": "42101-2222222-3",
+    "district": "Karachi East, UC-33",
+    "household_size": 3,
+    "other_earners_declared": false,
+    "self_declared_income_pkr": 42000,
+    "signed": true,
+    "signature_date": "16/06/2026"
+  },
+  "cnic_scan": {
+    "name": "Ahmed Khan",
+    "cnic": "42101-2222222-3",
+    "valid": true
+  },
+  "salary_slip": {
+    "employer": "KARACHI PORT TRUST",
+    "gross_income_pkr": 44000,
+    "deductions_pkr": 3200,
+    "net_income_pkr": 40800
+  },
+  "registry_lookup": {
+    "identity_verified": true,
+    "registry_status": "ACTIVE_CITIZEN",
+    "flags": [],
+    "active_grants_other_districts": [],
+    "coverage_note": "ALL_DISTRICTS_CHECKED"
+  },
+  "whatsapp_forward": {
+    "raw_text": "Sir, UC-33 case \u2014 Ahmed Khan. Docs attached. NOTE: District coordinator said 'hold this one, verify extra' but no rule cited. Please process per rules.",
+    "contains_explicit_applicant_exception_request": false,
+    "contains_third_party_pressure": false,
+    "contains_coordinator_instruction": true,
+    "ignored_note": "District coordinator said 'hold this one, verify extra' but no rule cited."
+  }
+}

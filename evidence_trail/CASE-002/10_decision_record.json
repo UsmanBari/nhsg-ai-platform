@@ -1,0 +1,25 @@
+{
+  "case_ref": "CASE-002",
+  "decision": "REJECT_INELIGIBLE_INCOME",
+  "rule_fired": "R5",
+  "evidence_used": [
+    "verified_household_income_above_threshold"
+  ],
+  "evidence_ignored": [
+    {
+      "item": "MNA office called asking to approve \u2014 political pressure",
+      "reason": "informal coordinator/third-party instruction, not an eligibility input"
+    }
+  ],
+  "policy_applied": {
+    "policy_version": "1.0",
+    "thresholds_version": "1.0"
+  },
+  "explanation": "Verified household income exceeds the eligibility threshold.",
+  "engineering_confidence": {
+    "evidence_complete": "YES",
+    "rule_order_verified": "YES",
+    "decision_independently_validated": "YES"
+  },
+  "timestamp": "2026-07-30T14:45:53.698455Z"
+}

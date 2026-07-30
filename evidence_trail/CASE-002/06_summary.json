@@ -1,0 +1,26 @@
+{
+  "evidence_complete": true,
+  "income_side": "above_threshold",
+  "gross_income_pkr": 62000,
+  "net_income_pkr": 56500,
+  "explicit_exception_request": false,
+  "ignored_informal_notes": [
+    {
+      "source": "whatsapp_forward",
+      "note": "MNA office called asking to approve \u2014 political pressure",
+      "reason": "informal coordinator/third-party instruction, not an eligibility input"
+    }
+  ],
+  "registry": {
+    "identity_verified": true,
+    "registry_status": "ACTIVE_CITIZEN",
+    "flags": [],
+    "active_grants_other_districts": [],
+    "coverage_note": "ALL_DISTRICTS_CHECKED"
+  },
+  "llm_reasoning": {
+    "evidence_summary": "Yasmeen Akhtar UC-08 application contains signed declaration, valid CNIC, and pay slip showing income above the threshold.",
+    "contradictions_explanation": "Self-declared monthly income of 38k is overridden by the verified university gross salary of 62k and net pay of 56.5k, both exceeding 50k.",
+    "ignored_notes_explanation": "Disregarded MNA office request to approve since political pressure is not an eligibility input."
+  }
+}

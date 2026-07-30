@@ -7,7 +7,7 @@
       "pool_decision": "DISBURSE",
       "pool_before": 66000,
       "pool_after": 54000,
-      "timestamp": "2026-07-30T13:29:24.305010Z"
+      "timestamp": "2026-07-30T14:45:53.677313Z"
     },
     {
       "case_id": "CASE-002",
@@ -15,7 +15,7 @@
       "pool_decision": "REJECT_INELIGIBLE_INCOME",
       "pool_before": 54000,
       "pool_after": 54000,
-      "timestamp": "2026-07-30T13:29:24.373267Z"
+      "timestamp": "2026-07-30T14:45:53.711874Z"
     },
     {
       "case_id": "CASE-003",
@@ -23,7 +23,7 @@
       "pool_decision": "ESCALATE_REQUIRES_HUMAN",
       "pool_before": 54000,
       "pool_after": 54000,
-      "timestamp": "2026-07-30T13:29:24.449213Z"
+      "timestamp": "2026-07-30T14:45:53.744858Z"
     }
   ]
 }

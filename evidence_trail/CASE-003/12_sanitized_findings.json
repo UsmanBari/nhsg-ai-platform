@@ -1,0 +1,14 @@
+{
+  "case_ref": "CASE-003",
+  "verifier_decision": "ESCALATE_REQUIRES_HUMAN",
+  "rules_fired": [
+    "R4"
+  ],
+  "flags": {
+    "income_side": "unknown",
+    "evidence_complete": true,
+    "duplicate_flag": false,
+    "explicit_exception_request": true
+  },
+  "decision_record_ref": "10_decision_record.json"
+}

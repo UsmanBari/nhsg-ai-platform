@@ -1,0 +1,18 @@
+{
+  "validation_passed": true,
+  "fields": {
+    "declaration.name": true,
+    "declaration.cnic": true,
+    "declaration.district": true,
+    "declaration.household_size": true,
+    "declaration.self_declared_income_pkr": true,
+    "declaration.signature_date": true,
+    "cnic_scan.name": true,
+    "cnic_scan.cnic": true,
+    "salary_slip.gross_income_pkr": true,
+    "salary_slip.deductions_pkr": true,
+    "salary_slip.net_income_pkr": true,
+    "registry_lookup.registry_status": true,
+    "registry_lookup.coverage_note": true
+  }
+}

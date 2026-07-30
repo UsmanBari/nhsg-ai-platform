@@ -1,0 +1,37 @@
+{
+  "declaration": {
+    "name": "Yasmeen Akhtar",
+    "cnic": "35202-3333333-4",
+    "district": "Lahore, UC-08",
+    "household_size": 5,
+    "other_earners_declared": false,
+    "self_declared_income_pkr": 38000,
+    "signed": true,
+    "signature_date": "17/06/2026"
+  },
+  "cnic_scan": {
+    "name": "Yasmeen Akhtar",
+    "cnic": "35202-3333333-4",
+    "valid": true
+  },
+  "salary_slip": {
+    "employer": "UNIVERSITY OF THE PUNJAB",
+    "gross_income_pkr": 62000,
+    "deductions_pkr": 5500,
+    "net_income_pkr": 56500
+  },
+  "registry_lookup": {
+    "identity_verified": true,
+    "registry_status": "ACTIVE_CITIZEN",
+    "flags": [],
+    "active_grants_other_districts": [],
+    "coverage_note": "ALL_DISTRICTS_CHECKED"
+  },
+  "whatsapp_forward": {
+    "raw_text": "UC-08 \u2014 Yasmeen Akhtar case. Salary slip shows high income but she insists household low. Form + CNIC + slip attached. MNA office called asking to approve \u2014 political pressure.",
+    "contains_explicit_applicant_exception_request": false,
+    "contains_third_party_pressure": true,
+    "contains_coordinator_instruction": false,
+    "ignored_note": "MNA office called asking to approve \u2014 political pressure"
+  }
+}
